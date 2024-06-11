@@ -9,6 +9,15 @@ WP_DIR="./images/"
 # Select a random jpg file
 FILE=$(ls $WP_DIR/*.jpg | shuf -n 1)
 
+# Check for Popular Desktop Environments that include built-in methods
+DE="$XDG_CURRENT_DESKTOP"
+# Gnome
+if [ "$DE" == "GNOME" ]; then
+    gsettings set org.gnome.desktop.background picture-uri "'file://$(readlink -f "$FILE")'"
+    gsettings set org.gnome.desktop.background picture-uri-dark "'file://$(readlink -f "$FILE")'"
+    exit 0
+fi
+
 # Check if running X11 or Wayland.
 if [[ -z "$WAYLAND_DISPLAY" && -z "$XDG_SESSION_TYPE" ]]; then
     # X11
